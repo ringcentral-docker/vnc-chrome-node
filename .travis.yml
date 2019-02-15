@@ -11,7 +11,7 @@ env:
 - cd image
 - version="$(awk -F '[:]'  '/FROM/ {print $2}' Dockerfile)"
 script:
-- docker build -t "$IMAGE_NAME" -f "Dockerfile.vnc.chrome" .
+- docker build -t "$IMAGE_NAME" -f "Dockerfile" .
 after_script:
 - docker images
 before_deploy:
