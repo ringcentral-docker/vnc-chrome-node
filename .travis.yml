@@ -1,0 +1,25 @@
+sudo: required
+language: ruby
+services:
+- docker
+env:
+  global:
+  - IMAGE_NAME=ringcentral/vnc-chrome-node
+  - secure: TkTK3HezRCbr+1zPUyvebVwAius5cf/ilXx36ejP5oP3+RkqI03/Tm6QYeZjYAlbJu77KrV7xTTzi/oI/eU2gx/Ohc7GF5KXiGOv/TD5szwlt1Xoyb5fmUmrF6cRfkmjaqjNi8hLi7FoFyHafGX5ZbGaJVHdgCN3OHymI2DGCWbEYZYGFqahsqfBTJN9uRN7TzBxSrMBJxbf/jJx2vihYIOL+UL6P40S5kGs3QF5uFgR/FiahxrUOke3jIaxbVQz24QEz9kzkEHSrjVVMFh44WOkpRooxlvYVAFjucZH1gp9MVTXwM17tTg8QlHtSEowZhJ5N6oBn0pX3xkDckrY9QZ7RZILYcSlVwOi0Jzaokb+cSnDo1RT3ZP6cbGSnRwL+kW0J/lknCCXT9b02E5HA1VEOT9W0EEB7KiBOZkgMf3ZppXmiVM1ob1VLJD0Xj/L+Cudiae75ef60yv/NdDJ8jf7S/L6PKxu7umztJ7ejRSCbdTOvI4V1Ked9amY1HyQVWLWBa8chk1t2wo6K/lrsmJjepgY5O8JfmDA4aTyGXgsof6+43IH0pMuIskfzrcObvi4wSUZCMiwQLwutgsijq29WwcBRtLeKktvpxHW6SF4Wvulm9cISa6rDWAy7gXUW7/bv2epCfziiLm0eN19hEqmJE0+DLoY4XpohvkKNE4=
+  - secure: oCCnD4NKHCARSdjMPHGjRqAYFhXVmeEi8FUSLp2f6uEmGhuQuH4Ew/+rXnvb22pwooKtS5kFfi/TKMDV2f7jR1ZfUS6lG9WVEMLzQnUFhiLjH0/3/+2iTYVS3iXgUojuSbSEIHjKt7BLYoFaGjfSiw0bd/n2kqsNL4NTg9mPUlyH6brQdnxqpK8U3CP4E8ZKNn8/q0EflNgsrPA6FTFWnGc4Owg7CGZIYoFUYqt6ioa+rxtt+yhbEFOQa2B4cunwqpJLIQBnJLQQaHYZYByYFIXtXAIYoxEEskOoPiUTHb+29oWUx2fhpRCyJn5yW2R8Nxo5ZEb/8dTkrybpq8FBoHbpxW/dFZaIpVqop3jd6gh2lbtPisOBcsheujRDSu6mn+MzC3+A9jIFtlWeLYkDGvAO030QDdfahDZd+hcx2D5TvfbDTdrhC9JeZY2MWR4ao60vYnhh02jadXqWTipjKs32KAxwgJbNXhIaL4tfKzmYfTf2io3Xy2b6wy/++dKfPUXfu8bP5sFVrH+fdMzVarDGELbwKHNI8U2DjhDJSewiA25C113ZpjBOloQgkAc53Q/6D80mu6sKQBCBfFz2hpZyIOJjUe522vYaFUyHbIsJbPwW1V6yd5X6vLExbi6+rJILBiWbT73SvnGG4FLf4DOTMCpMmphPAmEEDF6o/7U=
+  before_script:
+- cd image
+- version="$(awk -F '[:]'  '/FROM/ {print $2}' Dockerfile)"
+script:
+- docker build -t "$IMAGE_NAME" -f "Dockerfile.vnc.chrome" .
+after_script:
+- docker images
+before_deploy:
+- docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+- docker tag "$IMAGE_NAME" "${IMAGE_NAME}:latest"
+- docker tag "$IMAGE_NAME" "${IMAGE_NAME}:${version}"
+deploy:
+  provider: script
+  script: docker push "${IMAGE_NAME}:latest" && docker push "${IMAGE_NAME}:${version}"
+  on:
+    branch: master
