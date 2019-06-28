@@ -1,4 +1,4 @@
-FROM ringcentral/chrome-vnc:chrome70
+FROM ringcentral/chrome-vnc:chrome75
 ENV DISPLAY :99
 
 #install node
