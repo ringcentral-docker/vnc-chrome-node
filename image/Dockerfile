@@ -3,7 +3,7 @@ ENV DISPLAY :99
 
 #install node
 RUN apt-get update -yq \
-    && apt-get install curl gnupg -yq \
+    && apt-get install curl -yq \
     && curl -sL https://deb.nodesource.com/setup_12.x | bash \
     && apt-get install nodejs -yq
 
