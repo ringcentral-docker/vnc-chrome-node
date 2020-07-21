@@ -1,11 +1,12 @@
 FROM ringcentral/chrome-vnc:chrome75
 ENV DISPLAY :99
+ARG NODE_VERSION=12
 
 #install node
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - \
     && apt-get update -yq \
     && apt-get install curl -yq \
-    && curl -sL https://deb.nodesource.com/setup_12.x | bash \
+    && curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash \
     && apt-get install nodejs -yq
 
 #It's a good idea to use dumb-init to help prevent zombie chrome processes.
