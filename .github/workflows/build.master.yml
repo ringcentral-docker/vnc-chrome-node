@@ -27,18 +27,17 @@ jobs:
         cd image
         IMAGE_NAME=ringcentral/vnc-chrome-node
         GH_DOCKER_PKG_IMAGE_NAME=docker.pkg.github.com/ringcentral-docker/vnc-chrome-node/vnc-chrome-node
-        VERSION="$(awk -F '[:]'  '/FROM/ {print $2}' Dockerfile)"
-        # DETAIL_VERSION="$(awk -F= '/JAVA_DETAIL_VERSION=/ {print $2}' Dockerfile | cut -d " " -f 1)"
-        # BASE_VERSION="alpine$(awk -F '[:]' '/FROM/ {print $2}' Dockerfile)"
+        BASE_VERSION="$(awk -F '[:]'  '/FROM/ {print $2}' Dockerfile)"
+        NODE_VERSION="node$(awk -F '[=]'  '/ARG/ {print $2}' Dockerfile)"
         docker build --tag ${IMAGE_NAME} --file Dockerfile .
-        docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:${VERSION}"
+        docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:${BASE_VERSION}-${NODE_VERSION}"
         docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:latest"
         
-        docker push "${IMAGE_NAME}:${VERSION}"
+        docker push "${IMAGE_NAME}:${BASE_VERSION}-${NODE_VERSION}"
         docker push "${IMAGE_NAME}:latest"
 
-        docker tag "${IMAGE_NAME}" "${GH_DOCKER_PKG_IMAGE_NAME}:${VERSION}"
+        docker tag "${IMAGE_NAME}" "${GH_DOCKER_PKG_IMAGE_NAME}:${BASE_VERSION}-${NODE_VERSION}"
         docker tag "${IMAGE_NAME}" "${GH_DOCKER_PKG_IMAGE_NAME}:latest"
 
-        docker push "${GH_DOCKER_PKG_IMAGE_NAME}:${VERSION}"
+        docker push "${GH_DOCKER_PKG_IMAGE_NAME}:${BASE_VERSION}-${NODE_VERSION}"
         docker push "${GH_DOCKER_PKG_IMAGE_NAME}:latest"
