@@ -1,0 +1,28 @@
+name: Build VNCChromeNode
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      # '*' matches any character except '/'
+      - 'image/*'
+      - '.github/workflows/*'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Build Docker Image
+        run: |
+          cd image
+          IMAGE_NAME=ringcentral/vnc-chrome-node
+          GH_DOCKER_PKG_IMAGE_NAME=docker.pkg.github.com/ringcentral-docker/vnc-chrome-node/vnc-chrome-node
+          VERSION="$(awk -F '[:]'  '/FROM/ {print $2}' Dockerfile)"
+          # DETAIL_VERSION="$(awk -F= '/JAVA_DETAIL_VERSION=/ {print $2}' Dockerfile | cut -d " " -f 1)"
+          # BASE_VERSION="alpine$(awk -F '[:]' '/FROM/ {print $2}' Dockerfile)"
+          docker build --tag ${IMAGE_NAME} --file Dockerfile .
+          docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:${VERSION}"
+          docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:latest"
