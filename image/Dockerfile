@@ -2,7 +2,8 @@ FROM ringcentral/chrome-vnc:chrome75
 ENV DISPLAY :99
 
 #install node
-RUN apt-get update -yq \
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+    && apt-get update -yq \
     && apt-get install curl -yq \
     && curl -sL https://deb.nodesource.com/setup_12.x | bash \
     && apt-get install nodejs -yq
