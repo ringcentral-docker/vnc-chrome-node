@@ -28,7 +28,7 @@ jobs:
       run: |
         cd image
         IMAGE_NAME=ringcentral/vnc-chrome-node
-        IMAGE_TAG=v4
+        IMAGE_TAG=v4-chrome83
         GH_DOCKER_PKG_IMAGE_NAME=docker.pkg.github.com/ringcentral-docker/vnc-chrome-node/vnc-chrome-node
         BASE_VERSION="$(awk -F '[:]'  '/FROM/ {print $2}' Dockerfile)"
         NODE_VERSION="node$(awk -F '[=]'  '/ARG/ {print $2}' Dockerfile)"
