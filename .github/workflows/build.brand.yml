@@ -3,7 +3,7 @@ name: Build VNCChromeNode
 on:
   push:
     branches:
-      - master
+      - fixv4
     paths:
       # '*' matches any character except '/'
       - 'image/*'
@@ -12,7 +12,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@fixv4
     - name: Docker login
       env:
         DOCKER_HUB_USERNAME: ${{ secrets. DOCKER_HUB_USERNAME }} 
@@ -26,7 +26,7 @@ jobs:
       run: |
         cd image
         IMAGE_NAME=ringcentral/vnc-chrome-node
-        IMAGE_TAG=latest
+        IMAGE_TAG=v4
         GH_DOCKER_PKG_IMAGE_NAME=docker.pkg.github.com/ringcentral-docker/vnc-chrome-node/vnc-chrome-node
         BASE_VERSION="$(awk -F '[:]'  '/FROM/ {print $2}' Dockerfile)"
         NODE_VERSION="node$(awk -F '[=]'  '/ARG/ {print $2}' Dockerfile)"
