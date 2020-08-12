@@ -30,7 +30,7 @@ jobs:
         GH_DOCKER_PKG_IMAGE_NAME=docker.pkg.github.com/ringcentral-docker/vnc-chrome-node/vnc-chrome-node
         BASE_VERSION="$(awk -F '[:]'  '/FROM/ {print $2}' Dockerfile)"
         NODE_VERSION="node$(awk -F '[=]'  '/ARG/ {print $2}' Dockerfile)"
-        docker build --tag ${IMAGE_NAME}:${IMAGE_TAG} --file Dockerfile .
+        docker build --tag ${IMAGE_NAME} --file Dockerfile .
         docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:${BASE_VERSION}-${NODE_VERSION}"
         docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:${IMAGE_TAG}"
         
