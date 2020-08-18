@@ -3,7 +3,7 @@ name: Build VNCChromeNode
 on:
   push:
     branches:
-      - fixv4
+      - base
     paths:
       # '*' matches any character except '/'
       - 'image/*'
@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        ref: fixv4
+        ref: base
     - name: Docker login
       env:
         DOCKER_HUB_USERNAME: ${{ secrets. DOCKER_HUB_USERNAME }} 
@@ -28,19 +28,19 @@ jobs:
       run: |
         cd image
         IMAGE_NAME=ringcentral/vnc-chrome-node
-        IMAGE_TAG=v4-chrome83
+        IMAGE_TAG=base
         GH_DOCKER_PKG_IMAGE_NAME=docker.pkg.github.com/ringcentral-docker/vnc-chrome-node/vnc-chrome-node
         BASE_VERSION="$(awk -F '[:]'  '/FROM/ {print $2}' Dockerfile)"
         NODE_VERSION="node$(awk -F '[=]'  '/ARG/ {print $2}' Dockerfile)"
         docker build --tag ${IMAGE_NAME} --file Dockerfile .
-        docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:${BASE_VERSION}-${NODE_VERSION}"
+        # docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:${BASE_VERSION}-${NODE_VERSION}"
         docker tag "${IMAGE_NAME}" "${IMAGE_NAME}:${IMAGE_TAG}"
         
-        docker push "${IMAGE_NAME}:${BASE_VERSION}-${NODE_VERSION}"
+        # docker push "${IMAGE_NAME}:${BASE_VERSION}-${NODE_VERSION}"
         docker push "${IMAGE_NAME}:${IMAGE_TAG}"
 
-        docker tag "${IMAGE_NAME}" "${GH_DOCKER_PKG_IMAGE_NAME}:${BASE_VERSION}-${NODE_VERSION}"
+        # docker tag "${IMAGE_NAME}" "${GH_DOCKER_PKG_IMAGE_NAME}:${BASE_VERSION}-${NODE_VERSION}"
         docker tag "${IMAGE_NAME}" "${GH_DOCKER_PKG_IMAGE_NAME}:${IMAGE_TAG}"
 
-        docker push "${GH_DOCKER_PKG_IMAGE_NAME}:${BASE_VERSION}-${NODE_VERSION}"
+        # docker push "${GH_DOCKER_PKG_IMAGE_NAME}:${BASE_VERSION}-${NODE_VERSION}"
         docker push "${GH_DOCKER_PKG_IMAGE_NAME}:${IMAGE_TAG}"
