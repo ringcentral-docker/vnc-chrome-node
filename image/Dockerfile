@@ -1,6 +1,6 @@
 FROM ringcentral/chrome-vnc:chrome75
 ENV DISPLAY :99
-ARG NODE_VERSION=12
+ARG NODE_VERSION=14
 
 #install node
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - \
