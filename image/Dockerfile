@@ -1,4 +1,4 @@
-FROM ringcentral/chrome-vnc:chrome75
+FROM ringcentral/chrome-vnc:chrome83
 ENV DISPLAY :99
 ARG NODE_VERSION=14
 
