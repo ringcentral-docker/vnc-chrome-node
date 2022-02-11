@@ -1,4 +1,4 @@
-FROM ringcentral/chrome-vnc:chrome83
+FROM ringcentral/chrome-vnc:chrome98_firefox97
 ENV DISPLAY :99
 ARG NODE_VERSION=14
 
