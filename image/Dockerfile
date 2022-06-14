@@ -19,7 +19,7 @@ RUN chmod +x /usr/local/bin/dumb-init
 #Install tools :selenium-standalone need install java
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-RUN apt-get update && apt-get install yarn lame
+RUN apt-get update && apt-get install -y yarn lame
 RUN npm install selenium-standalone -g 
 # RUN npm init -y
 # RUN yarn add puppeteer
