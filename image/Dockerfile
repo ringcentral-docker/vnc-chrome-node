@@ -1,6 +1,6 @@
 FROM ringcentral/chrome-vnc:chrome98-firefox97
 ENV DISPLAY :99
-ARG NODE_VERSION=14
+ARG NODE_VERSION=16
 
 #
 #install node
