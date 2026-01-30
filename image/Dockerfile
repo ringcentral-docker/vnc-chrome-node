@@ -1,6 +1,6 @@
-FROM ringcentral/chrome-vnc:chrome119-firefox119
+FROM ringcentral/chrome-vnc:chrome144-firefox145
 ENV DISPLAY :99
-ARG NODE_VERSION=20
+ARG NODE_VERSION=22
 
 #
 #install node
@@ -18,7 +18,7 @@ RUN chmod +x /usr/local/bin/dumb-init
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 RUN apt-get update && apt-get install -y yarn lame
-RUN npm install selenium-standalone -g 
+RUN npm install selenium-standalone -g
 
 
 # Set Timezone
